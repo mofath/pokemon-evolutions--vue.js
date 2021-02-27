@@ -1,9 +1,12 @@
 <template>
   <div class="cards">
-    <card v-for="starter in starters" @click="fetchEvolutions(starter)">
-      <template v-slot:title>
-        {{ starter.name }}
-      </template>
+    <card
+      v-for="starter in starters"
+      @click="fetchEvolutions(starter)"
+      :class="{ apace: selectedId && starter.id != selectedId }"
+      class="card"
+    >
+      <template v-slot:title> {{ starter.name }} #{{ starter.id }} </template>
       <template v-slot:content>
         <img :src="starter.sprite" alt="" />
       </template>
@@ -17,9 +20,7 @@
 
   <div class="cards">
     <card v-for="creature in evolutions">
-      <template v-slot:title>
-        {{ creature.name }}
-      </template>
+      <template v-slot:title> {{ creature.name }} #{{ creature.id }} </template>
       <template v-slot:content>
         <img :src="creature.sprite" alt="" />
       </template>
@@ -44,6 +45,7 @@ export default {
     return {
       starters: [],
       evolutions: [],
+      selectedId: null,
     };
   },
   async created() {
@@ -64,9 +66,8 @@ export default {
       }));
     },
     async fetchEvolutions(pokemon) {
-      console.log(pokemon.id);
+      this.selectedId = pokemon.id;
       this.evolutions = await this.fetchData([pokemon.id + 1, pokemon.id + 2]);
-      console.log(this.evolutions);
     },
   },
 };
@@ -75,6 +76,12 @@ export default {
 <style scoped>
 .cards {
   display: flex;
+}
+.card:hover{
+  opacity: 1.0;
+}
+.apace {
+  opacity: 0.5;
 }
 img {
   width: 100%;
