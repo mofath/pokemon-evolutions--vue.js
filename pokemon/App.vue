@@ -3,7 +3,7 @@
     <card
       v-for="starter in starters"
       @click="fetchEvolutions(starter)"
-      :class="{ apace: selectedId && starter.id != selectedId }"
+      :class="{ apace: selectedId && starter.id !== selectedId }"
       class="card"
     >
       <template v-slot:title> {{ starter.name }} #{{ starter.id }} </template>
